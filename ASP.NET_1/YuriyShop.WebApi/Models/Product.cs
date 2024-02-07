@@ -1,4 +1,4 @@
-﻿namespace ASP.NET_1.src.Common
+﻿namespace YuriyShop.WebApi.src.Common
 {
     public class Product
     {

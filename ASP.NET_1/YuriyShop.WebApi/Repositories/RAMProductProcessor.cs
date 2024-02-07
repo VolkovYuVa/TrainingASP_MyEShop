@@ -1,6 +1,6 @@
-﻿namespace ASP.NET_1.src.Common
+﻿namespace YuriyShop.WebApi.src.Common
 {
-    public class RAMProductProcessor : IProductProcessor
+    public class RamProductRepository : IProductRepository
     {
         public string Message_AddProduct { get; set; } = "Product added to list";
         public string Message_RemoveProduct { get; set; } = "Product removed from list";
@@ -10,8 +10,14 @@
         public static List<Product> Products { get; set; } = new List<Product>();
         public Product GetProduct(int id)
         {
-            return Products.Where(x => x.Id == id).SingleOrDefault();
+            return Products.Single(x => x.Id == id);
         }
+
+        public Product? FindProduct(int id)
+        {
+            return Products.SingleOrDefault(x => x.Id == id);
+        }
+
         public void CreateProduct(Product product)
         {
             Products.Add(product);

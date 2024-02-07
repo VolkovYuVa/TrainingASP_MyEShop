@@ -1,6 +1,8 @@
-﻿namespace ASP.NET_1.src.Common
+﻿using YuriyShop.WebApi.src.Common;
+
+namespace YuriyShop.WebApi.Common
 {
-    public class DBProductProcessor: IProductProcessor
+    public class DbProductRepository: IProductRepository
     {
         public string Message_AddProduct { get; set; } = "Product added to db";
         public string Message_RemoveProduct { get; set; } = "Product removed from db";
