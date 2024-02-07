@@ -1,0 +1,6 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/ASP.NET_1/.vs/ASP.NET_1/FileContentIndex
+/.vs
