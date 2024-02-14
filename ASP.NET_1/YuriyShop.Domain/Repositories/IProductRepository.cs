@@ -1,12 +1,8 @@
-﻿namespace YuriyShop.WebApi.src.Common
+﻿using YuriyShop.Domain.Models;
+namespace YuriyShop.Domain.Repository
 {
     public interface IProductRepository
     {
-        public string? Message_AddProduct { get; set; }
-        public string? Message_RemoveProduct { get; set; }
-        public string? Message_UpdateProduct { get; set; }
-        public string? Message_ClearCatalogue { get; set; }
-
         Product GetProduct(int id);
         Product? FindProduct(int id);
         void CreateProduct(Product product);

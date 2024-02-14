@@ -1,18 +1,19 @@
-﻿using YuriyShop.WebApi.src.Common;
+﻿using YuriyShop.Domain.Models;
 
-namespace YuriyShop.WebApi.Common
+namespace YuriyShop.Domain.Repository
 {
     public class DbProductRepository: IProductRepository
     {
-        public string Message_AddProduct { get; set; } = "Product added to db";
-        public string Message_RemoveProduct { get; set; } = "Product removed from db";
-        public string Message_UpdateProduct { get; set; } = "Product updated in db";
-        public string Message_ClearCatalogue { get; set; } = "Catalogue in db is cleared";
-
         public Product GetProduct(int id)
         {
             return null;
         }
+
+        public Product? FindProduct(int id)
+        {
+            return null;
+        }
+
         public void CreateProduct(Product product)
         {
             Console.WriteLine("Create Product: DB");

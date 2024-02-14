@@ -1,28 +1,25 @@
-using YuriyShop.WebApi.src.Common;
-using Microsoft.AspNetCore.Mvc;
+using YuriyShop.Domain.Repository;
+using YuriyShop.Domain.Services;
 using YuriyShop.WebApi;
-using YuriyShop.WebApi.Services;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 //builder.Services.Configure<JsonOptions>(options =>options.SerializerOptions.WriteIndented = true);
 builder.Services.AddSingleton<IProductRepository, RamProductRepository>();
 builder.Services.AddSingleton<ProductService>();
+builder.Services.AddSingleton<DiscountService>();
 
 WebApplication app = builder.Build();
 
 app.MapGet("/", () => "Main");
 
 app.MapGet("/get_product", ProductEndpoints.GetProductEndpoint);
-app.MapPost("/RPC/add_product", ([FromServices] ProductService service, Product product) => service.CreateProduct(product));
-app.MapPost("/RPC/update_product", ([FromServices] ProductService service, Product product) => service.UpdateProduct(product));
-app.MapPost("/RPC/delete_product", ([FromServices] ProductService service, [FromQuery] int id) => service.DeleteProduct(id));
-app.MapPost("/RPC/clear_catalogue", ([FromServices] ProductService service) => service.ClearCatalogue());
-app.MapGet("/RPC/get_catalogue", ([FromServices] ProductService service) => service.GetCatalogue());
+app.MapPost("/add_product", ProductEndpoints.AddProductEndpoint);
+app.MapPost("/update_product", ProductEndpoints.UpdateProductEndpoint);
+app.MapPost("/delete_product", ProductEndpoints.DeleteProductEndpoint);
+app.MapPost("/clear_catalogue", ProductEndpoints.ClearCatalogueEndpoint);
+app.MapGet("/get_catalogue", ProductEndpoints.GetCatalogueEndpoint);
 
 // RPC != gRPC
 
 app.Run();
-
-
-

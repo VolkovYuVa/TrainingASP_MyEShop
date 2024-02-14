@@ -1,12 +1,9 @@
-﻿namespace YuriyShop.WebApi.src.Common
+﻿using YuriyShop.Domain.Models;
+
+namespace YuriyShop.Domain.Repository
 {
     public class RamProductRepository : IProductRepository
     {
-        public string Message_AddProduct { get; set; } = "Product added to list";
-        public string Message_RemoveProduct { get; set; } = "Product removed from list";
-        public string Message_UpdateProduct { get; set; } = "Product updated in list";
-        public string Message_ClearCatalogue { get; set; } = "Catalogue in list is cleared";
-
         public static List<Product> Products { get; set; } = new List<Product>();
         public Product GetProduct(int id)
         {
