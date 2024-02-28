@@ -1,0 +1,59 @@
+﻿
+@page "/Products/Catalogue"
+@attribute [StreamRendering]
+
+<PageTitle>ProductCatalogue</PageTitle>
+
+<h1>Catalogue</h1>
+
+<p>На странице представлен продуктовый каталог</p>
+<button class="btn btn-primary" @onclick="RefreshCatalogue">Refresh Catalogue</button>
+
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>@product.Category</td>
+                    <td>@product.Price</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private IEnumerable<Product> products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshCatalogue();
+    }
+
+    private async Task RefreshCatalogue()
+    {
+        var client = new HttpClient();
+        var catalogue = await client.GetFromJsonAsync<Catalogue>("http://localhost:5104/get_catalogue");
+        products = catalogue.Products;
+    }
+
+}

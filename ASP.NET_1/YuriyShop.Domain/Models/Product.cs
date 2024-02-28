@@ -15,9 +15,16 @@ public class Product
         Category = category;
         Price = price;
     }
+
+
     public override string ToString()
     {
         return $"ID:{Id}\nName:{Name}\nDescription:{Description}\nCategory:{Category}\nPrice:{Price}";
+    }
+
+    public Product Clone() 
+    {
+        return new Product(Id,Name,Description,Category,Price);
     }
 
 }

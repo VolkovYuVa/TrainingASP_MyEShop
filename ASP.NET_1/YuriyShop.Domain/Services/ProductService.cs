@@ -5,11 +5,30 @@ namespace YuriyShop.Domain.Services;
 
 public class ProductService
 {
+    private IClock _clock;
     private IProductRepository ProductRepository { get; set; }
 
-    public ProductService(IProductRepository productRepository)
+    public ProductService(IProductRepository productRepository,IClock clock)
     {
-        ProductRepository = productRepository;
+        ProductRepository = productRepository ?? throw new ArgumentNullException(nameof(productRepository));
+        _clock = clock ?? throw new ArgumentNullException(nameof(clock));
+    }
+
+    private Product ApplyAllDiscounts(Product product)
+    {
+        if (product != null)
+        {
+            product.Price *= MondayMultiplier;//последовательность нарушена
+            return product.Clone();
+        }
+        else return product;
+    }
+    private double MondayMultiplier
+    {
+        get
+        {
+            return _clock.Today.DayOfWeek == DayOfWeek.Monday ? 0.75 : 1;
+        }
     }
 
     public void CreateProduct(Product product)
@@ -29,7 +48,7 @@ public class ProductService
 
     public Product? FindProduct(int id)
     {
-        return ProductRepository.FindProduct(id);
+        return ApplyAllDiscounts(ProductRepository.FindProduct(id));
     }
 
     public void ClearCatalogue()
@@ -37,8 +56,18 @@ public class ProductService
         ProductRepository.ClearCatalogue();
     }
 
-    public IEnumerable<Product> GetCatalogue()
+    public Catalogue GetCatalogue()
     {
-        return ProductRepository.GetCatalogue();
+        var catalogue = ProductRepository.GetCatalogue().ToList();
+        if (catalogue != null)
+        {
+            catalogue = catalogue.ConvertAll(x => ApplyAllDiscounts(x));
+        }
+        else
+        {
+            catalogue = new List<Product> { };
+        }
+
+        return new Catalogue(catalogue);
     }
 }

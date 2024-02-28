@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YuriyShop.Domain.Services;
 using YuriyShop.Domain.Models;
+using System.Text.Json; 
 
-namespace YuriyShop.WebApi;
+namespace YuriyShop.WebApi.Endpoints;
 
 public static class ProductEndpoints
 {
-    public static IResult GetProductEndpoint([FromServices] ProductService service, [FromServices] DiscountService discountService, [FromQuery]  int id)
+    public static IResult GetProductEndpoint([FromServices] ProductService service,  [FromQuery]  int id)
     {
         if (id < 1)
         {
@@ -18,7 +19,6 @@ public static class ProductEndpoints
         {
             return Results.NotFound("Товар не найден");
         }
-        product = discountService.ApplyAllDiscounts(product.Clone());
         return Results.Ok(product);
 
         // Альтернативы эксепшенам: Железнодорожно-орентированное программирование
@@ -72,14 +72,15 @@ public static class ProductEndpoints
 
     public static IResult GetCatalogueEndpoint([FromServices] ProductService service)
     {
-        List<Product> Catalogue = service.GetCatalogue().ToList();
-        {
-        if (Catalogue.Count == 0)
-           return Results.Ok("Каталог продуктов пуст");
-        }
+        Catalogue catalogue = new Catalogue( service.GetCatalogue().Products.ToList());
+        //if (!catalogue.Products.Any())
+        //{
+        //   return Results.Ok("Каталог продуктов пуст");
+        //}
 
-        var CatalogueString = string.Join("\n-----------\n", Catalogue.Select(x=>x.ToString()).ToList());
-        return Results.Ok(CatalogueString);
+        //var CatalogueString = JsonSerializer.Serialize(Catalogue);
+
+        return Results.Ok(catalogue);
     }
 
 }
