@@ -1,3 +1,4 @@
+using MailKit;
 using Microsoft.AspNetCore.HttpLogging;
 using YuriyAppUI.Client.Pages;
 using YuriyAppUI.Components;
@@ -5,6 +6,7 @@ using YuriyShop.Domain.Models;
 using YuriyShop.Domain.Repository;
 using YuriyShop.Domain.Services;
 using YuriyShop.WebApi.Endpoints;
+using YuriyShop.Domain.Models.Mail;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,9 @@ builder.Services.AddHttpLogging(x=>x.LoggingFields = HttpLoggingFields.All);
 builder.Services.AddSingleton<IProductRepository, RamProductRepository>();
 builder.Services.AddSingleton<IClock, SystemClock>();
 builder.Services.AddSingleton<ProductService>();
+builder.Services.AddScoped<IEmailSender, SMTPEmailSender>();
+builder.Services.AddScoped<MailService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
