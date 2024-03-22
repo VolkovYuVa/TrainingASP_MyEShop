@@ -4,7 +4,7 @@ namespace YuriyShop.Domain.Repository
 {
     public class RamProductRepository : IProductRepository
     {
-        public static List<Product> Products { get; set; } = new List<Product>();
+        public List<Product> Products { get; set; } = new List<Product>();
         public Product GetProduct(int id)
         {
             return Products.Single(x => x.Id == id);

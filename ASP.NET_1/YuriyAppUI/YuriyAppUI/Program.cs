@@ -7,6 +7,7 @@ using YuriyShop.Domain.Repository;
 using YuriyShop.Domain.Services;
 using YuriyShop.WebApi.Endpoints;
 using YuriyShop.Domain.Models.Mail;
+using YuriyShop.Domain.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +23,9 @@ builder.Services.AddSingleton<IClock, SystemClock>();
 builder.Services.AddSingleton<ProductService>();
 builder.Services.AddScoped<IEmailSender, SMTPEmailSender>();
 builder.Services.AddScoped<MailService>();
-
+ 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
